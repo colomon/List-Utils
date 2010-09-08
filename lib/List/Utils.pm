@@ -50,3 +50,19 @@ sub take-while(@a, Mu $test) is export(:DEFAULT) {
     }
 }
 
+sub transpose(@list is copy) is export(:DEFAULT) {
+    gather {
+        while @list !~~ [] {
+            my @heads;
+            if @list[0].WHAT.perl ~~ 'Int' {
+                @heads = @list.shift;
+            }
+            else {
+                @heads = @list.map({$_.shift unless $_ ~~ []});
+            }
+            @list = map {$_ unless $_ ~~ []}, @list;
+            take [@heads];
+        }
+    }
+}
+
