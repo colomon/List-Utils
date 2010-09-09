@@ -54,7 +54,7 @@ sub transpose(@list is copy) is export(:DEFAULT) {
     gather {
         while @list !~~ [] {
             my @heads;
-            if @list[0].WHAT.perl ~~ 'Int' {
+            if @list[0] ~~ Numeric {
                 @heads = @list.shift;
             }
             else {
