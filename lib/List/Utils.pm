@@ -3,7 +3,7 @@ module List::Utils;
 sub sliding-window(@a, $n) is export(:DEFAULT) {
     my $a-list = @a.iterator.list;
     my @values;
-    gather while my $a = $a-list.shift {
+    gather while defined(my $a = $a-list.shift) {
         @values.push($a);
         @values.shift if +@values > $n;
         take @values if +@values == $n;
