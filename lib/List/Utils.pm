@@ -10,6 +10,24 @@ sub sliding-window(@a, $n) is export(:DEFAULT) {
     }
 }
 
+sub sliding-window-wrapped(@a, $n) is export(:DEFAULT) {
+    my $a-list = @a.iterator.list;
+    my @values;
+    gather {
+        while defined(my $a = $a-list.shift) {
+            @values.push($a);
+            @values.shift if +@values > $n;
+            take @values if +@values == $n;
+        }
+        
+        for ^($n-1) {
+            @values.push(@a[$_]);
+            @values.shift if +@values > $n;
+            take @values if +@values == $n;
+        }
+    }
+}
+
 sub permute(@items) is export(:DEFAULT) {
     sub pattern_to_permutation(@pattern, @items1) {
         my @items = @items1;
