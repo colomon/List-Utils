@@ -120,7 +120,7 @@ sub upper-bound(@x, $key) is export(:DEFAULT) {
     return $first;
 }
 
-sub sorted-merge(@a, @b) is export(:DEFAULT) {
+sub sorted-merge(@a, @b, &by = &infix:<cmp>) is export(:DEFAULT) {
     my $a-list = @a.iterator.list;
     my $b-list = @b.iterator.list;
     
@@ -128,7 +128,7 @@ sub sorted-merge(@a, @b) is export(:DEFAULT) {
     my $b = $b-list.shift;
     gather loop {
         if $a.defined && $b.defined {
-            if $a before $b {
+            if &by($a, $b) == -1 {
                 my $temp = $a;
                 take $temp;
                 $a = $a-list.shift;

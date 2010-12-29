@@ -36,5 +36,25 @@ plan *;
        "sorted-merge correct with infinite lazy lists, order swapped";
 }
 
+{
+    my @a := 1, 1, *+* ... *;
+    my @b := 3, 6 ... *;
+    is ~sorted-merge(@a, @b)[^10], ~(1, 1, 2, 3, 3, 5, 6, 8, 9, 12), 
+       "sorted-merge correct with infinite lazy lists";
+    is ~sorted-merge(@b, @a)[^10], ~(1, 1, 2, 3, 3, 5, 6, 8, 9, 12), 
+       "sorted-merge correct with infinite lazy lists, order swapped";
+}
+
+{
+    my @a := 1, * * -1/2 ... *;
+    my @b := 1, 1/3, 1/9 ... *;
+    is ~sorted-merge(@a, @b, -> $a, $b { $b.abs <=> $a.abs })[^7].perl, 
+       (1, 1, -1/2, 1/3, 1/4, -1/8, 1/9).perl, 
+       "sorted-merge correct with custom comparison";
+    is ~sorted-merge(@b, @a, -> $a, $b { $b.abs <=> $a.abs })[^7].perl, 
+       (1, 1, -1/2, 1/3, 1/4, -1/8, 1/9).perl, 
+       "sorted-merge correct with custom comparison, order swapped";
+}
+
 
 done_testing;
