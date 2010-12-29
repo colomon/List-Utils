@@ -120,3 +120,35 @@ sub upper-bound(@x, $key) is export(:DEFAULT) {
     return $first;
 }
 
+sub sorted-merge(@a, @b) is export(:DEFAULT) {
+    my $a-list = @a.iterator.list;
+    my $b-list = @b.iterator.list;
+    
+    my $a = $a-list.shift;
+    my $b = $b-list.shift;
+    gather loop {
+        if $a.defined && $b.defined {
+            if $a before $b {
+                my $temp = $a;
+                take $temp;
+                $a = $a-list.shift;
+            } else {
+                my $temp = $b;
+                take $temp;
+                $b = $b-list.shift;
+            }
+        } else {
+            if $a.defined {
+                my $temp = $a;
+                take $temp;
+                $a = $a-list.shift;
+            } elsif $b.defined {
+                my $temp = $b;
+                take $temp;
+                $b = $b-list.shift;
+            } else {
+                last;
+            }
+        }
+    }
+}
