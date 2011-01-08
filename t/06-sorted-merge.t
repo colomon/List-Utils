@@ -57,4 +57,4 @@ plan *;
 }
 
 
-done_testing;
+done;

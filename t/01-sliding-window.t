@@ -44,4 +44,4 @@ is ~sliding-window-wrapped(([1, 'a'], [2, 'b'], [3, 'c']), 2),
    ~(([1, 'a'], [2, 'b']), ([2, 'b'], [3, 'c']), ([3, 'c'], [1, 'a'])),
    "sliding preserves internal structure";
 
-done_testing;
+done;
