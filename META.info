@@ -3,6 +3,6 @@
     "version"     : "*",
     "description" : "Simple list utility subs",
     "depends"     : [],
-    "repo-type"   : "git",
-    "repo-url"    : "git://github.com/colomon/List-Utils.git"
+    "source-type"   : "git",
+    "source-url"    : "git://github.com/colomon/List-Utils.git"
 }
