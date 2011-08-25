@@ -11,10 +11,10 @@ sub sliding-window(@a is copy, $n) is export {
 }
 
 sub sliding-window-wrapped(@a, $n) is export(:DEFAULT) {
-    my $a-list = @a.iterator.list;
+    my @a-list = @a;
     my @values;
     gather {
-        while defined(my $a = $a-list.shift) {
+        while defined(my $a = @a-list.shift) {
             @values.push($a);
             @values.shift if +@values > $n;
             take @values if +@values == $n;
