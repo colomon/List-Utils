@@ -2,8 +2,6 @@ use v6;
 use Test;
 use List::Utils;
 
-plan *;
-
 my @array = (1, 2, 2, 3, 4, 5, 5, 5, 5, 6, 7, 8);
 
 ok(([<=] @array), "array is sorted properly");

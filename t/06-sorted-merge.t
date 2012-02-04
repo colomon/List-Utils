@@ -2,8 +2,6 @@ use v6;
 use Test;
 use List::Utils;
 
-plan *;
-
 {
     my @a = (10, 20, 20, 30);
     my @b = 17..22;

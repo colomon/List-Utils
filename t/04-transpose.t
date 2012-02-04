@@ -1,7 +1,6 @@
 use Test;
 use List::Utils;
 
-plan *;
 nok transpose(([])).elems, "empty matrix";
 is transpose(([],[])), (), "empty matrix";
 is transpose(([1])), ([1]), "one element matrix";

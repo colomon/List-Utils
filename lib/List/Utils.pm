@@ -1,6 +1,6 @@
 module List::Utils;
 
-sub sliding-window(@a, $n) is export(:DEFAULT) {
+sub sliding-window(@a, $n) is export {
     my $a-list = @a.iterator.list;
     my @values;
     gather while defined(my $a = $a-list.shift) {
@@ -10,7 +10,7 @@ sub sliding-window(@a, $n) is export(:DEFAULT) {
     }
 }
 
-sub sliding-window-wrapped(@a, $n) is export(:DEFAULT) {
+sub sliding-window-wrapped(@a, $n) is export {
     my $a-list = @a.iterator.list;
     my @values;
     gather {
@@ -28,7 +28,7 @@ sub sliding-window-wrapped(@a, $n) is export(:DEFAULT) {
     }
 }
 
-sub permute(@items) is export(:DEFAULT) {
+sub permute(@items) is export {
     sub pattern_to_permutation(@pattern, @items1) {
         my @items = @items1;
         my @r;
@@ -55,7 +55,7 @@ sub permute(@items) is export(:DEFAULT) {
     }
 }
 
-sub take-while(@a, Mu $test) is export(:DEFAULT) {
+sub take-while(@a, Mu $test) is export {
     gather {
         for @a.list {
             when $test { take $_ }
@@ -64,7 +64,7 @@ sub take-while(@a, Mu $test) is export(:DEFAULT) {
     }
 }
 
-sub transpose(@list is copy) is export(:DEFAULT) {
+sub transpose(@list is copy) is export {
     gather {
         while @list {
             my @heads;
@@ -80,7 +80,7 @@ sub transpose(@list is copy) is export(:DEFAULT) {
     }
 }
 
-sub lower-bound(@x, $key) is export(:DEFAULT) {
+sub lower-bound(@x, $key) is export {
     my $first = 0;
     my $len = @x.elems;
     my $half;
@@ -100,7 +100,7 @@ sub lower-bound(@x, $key) is export(:DEFAULT) {
     return $first;
 }
 
-sub upper-bound(@x, $key) is export(:DEFAULT) {
+sub upper-bound(@x, $key) is export {
     my $first = 0;
     my $len = @x.elems;
     my $half;
@@ -120,7 +120,7 @@ sub upper-bound(@x, $key) is export(:DEFAULT) {
     return $first;
 }
 
-sub sorted-merge(@a, @b, &by = &infix:<cmp>) is export(:DEFAULT) {
+sub sorted-merge(@a, @b, &by = &infix:<cmp>) is export {
     my $a-list = @a.iterator.list;
     my $b-list = @b.iterator.list;
     

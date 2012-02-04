@@ -1,8 +1,6 @@
 use Test;
 use List::Utils;
 
-plan *;
-
 is ~sliding-window((1, 2, 3), 1), ~(1, 2, 3), "one at a time works (parcel)";
 is ~sliding-window(1..3, 1), ~(1, 2, 3), "one at a time works (range)";
 # is ~sliding-window(1...3, 1), ~(1, 2, 3), "one at a time works (series)";
