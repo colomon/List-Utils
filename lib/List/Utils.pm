@@ -1,11 +1,17 @@
 module List::Utils;
 
+sub push-one-take-if-enough(@values is rw, $new-value, $n) {
+    @values.push($new-value);
+    @values.shift if +@values > $n;
+    if +@values == $n {
+        for @values { take $_ }
+    }
+}
+
 sub sliding-window(@a, $n) is export {
     my @values;
     gather for @a -> $a {
-        @values.push($a);
-        @values.shift if +@values > $n;
-        take @values if +@values == $n;
+        push-one-take-if-enough(@values, $a, $n);
     }
 }
 
@@ -13,15 +19,11 @@ sub sliding-window-wrapped(@a, $n) is export {
     my @values;
     gather {
         for @a -> $a {
-            @values.push($a);
-            @values.shift if +@values > $n;
-            take @values if +@values == $n;
+            push-one-take-if-enough(@values, $a, $n);
         }
         
         for ^($n-1) {
-            @values.push(@a[$_]);
-            @values.shift if +@values > $n;
-            take @values if +@values == $n;
+            push-one-take-if-enough(@values, @a[$_], $n);
         }
     }
 }
