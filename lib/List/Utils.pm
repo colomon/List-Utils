@@ -1,9 +1,8 @@
 module List::Utils;
 
 sub sliding-window(@a, $n) is export {
-    my $a-list = @a.iterator.list;
     my @values;
-    gather while defined(my $a = $a-list.shift) {
+    gather for @a -> $a {
         @values.push($a);
         @values.shift if +@values > $n;
         take @values if +@values == $n;
@@ -11,10 +10,9 @@ sub sliding-window(@a, $n) is export {
 }
 
 sub sliding-window-wrapped(@a, $n) is export {
-    my $a-list = @a.iterator.list;
     my @values;
     gather {
-        while defined(my $a = $a-list.shift) {
+        for @a -> $a {
             @values.push($a);
             @values.shift if +@values > $n;
             take @values if +@values == $n;
