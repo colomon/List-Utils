@@ -152,3 +152,14 @@ sub sorted-merge(@a, @b, &by = &infix:<cmp>) is export {
         }
     }
 }
+
+sub uniq-by(@a, $by) is export {
+    my %seen;
+    gather for @a {
+        my $current = $by($_);
+        unless %seen{$current} {
+            take $_;
+            %seen{$current} = 1;
+        }
+    }
+}
