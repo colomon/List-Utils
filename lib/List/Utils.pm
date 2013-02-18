@@ -55,6 +55,37 @@ sub permute(@items) is export {
     }
 }
 
+sub combinations(@items, $count) is export {
+    my $size = +@items;
+    my $top = $size - $count;
+    my @indicies = (^$count).list;
+    gather loop {
+        take [@items[@indicies]];
+        last if !@indicies || @indicies[0] == $top;
+        for $count - 1 ... 0 -> $i {
+            if @indicies[$i] < $top + $i {
+                @indicies[$i]++;
+                for ($i+1)..^$count -> $j {
+                    @indicies[$j] = @indicies[$j-1] + 1;
+                }
+                last;
+            }
+        }
+    }
+}
+
+# sub combinations(@items, $count) is export {
+#     my $size = +@items;
+#     gather for ^(2 ** $size) -> $i {
+#         # my $gray = $i +^ ($i +> 1);
+#         my $gray = $i;
+#         my @a = @items.grep({ my $result = $gray +& 1; $gray +>= 1; $result });
+#         # last if @a > $count + 1;
+#         next if @a != $count;
+#         take [@a];
+#     }
+# }
+
 sub take-while(@a, Mu $test) is export {
     gather {
         for @a.list {
