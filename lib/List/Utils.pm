@@ -55,7 +55,9 @@ sub permute(@items) is export {
     }
 }
 
-sub combinations(@items, $count) is export {
+proto combinations(@items, $count?) is export { * }
+
+multi sub combinations(@items, $count) is export {
     my $size = +@items;
     my $top = $size - $count;
     my @indicies = (^$count).list;
@@ -72,6 +74,10 @@ sub combinations(@items, $count) is export {
             }
         }
     }
+}
+
+multi sub combinations(@items, Range $counts = 0..+@items) is export {
+    $counts.map({ combinations(@items, $_) });
 }
 
 sub take-while(@a, Mu $test) is export {
