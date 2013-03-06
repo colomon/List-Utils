@@ -146,33 +146,66 @@ sub upper-bound(@x, $key) is export {
 }
 
 sub sorted-merge(@a, @b, &by = &infix:<cmp>) is export {
-    my $a-list = @a.iterator.list;
-    my $b-list = @b.iterator.list;
-    
-    my $a = $a-list.shift;
-    my $b = $b-list.shift;
-    gather loop {
-        if $a.defined && $b.defined {
-            if &by($a, $b) == -1 {
-                my $temp = $a;
-                take $temp;
-                $a = $a-list.shift;
+    if $*EXECUTABLE_NAME ~~ /:i niecza/ {
+        my $a-list = @a.iterator.list;
+        my $b-list = @b.iterator.list;
+
+        my $a = $a-list.shift;
+        my $b = $b-list.shift;
+        gather loop {
+            if $a.defined && $b.defined {
+                if &by($a, $b) == -1 {
+                    my $temp = $a;
+                    take $temp;
+                    $a = $a-list.shift;
+                } else {
+                    my $temp = $b;
+                    take $temp;
+                    $b = $b-list.shift;
+                }
             } else {
-                my $temp = $b;
-                take $temp;
-                $b = $b-list.shift;
+                if $a.defined {
+                    my $temp = $a;
+                    take $temp;
+                    $a = $a-list.shift;
+                } elsif $b.defined {
+                    my $temp = $b;
+                    take $temp;
+                    $b = $b-list.shift;
+                } else {
+                    last;
+                }
             }
-        } else {
-            if $a.defined {
-                my $temp = $a;
-                take $temp;
-                $a = $a-list.shift;
-            } elsif $b.defined {
-                my $temp = $b;
-                take $temp;
-                $b = $b-list.shift;
+        }
+    } else {
+        my $a-list = @a.iterator.list;
+        my $b-list = @b.iterator.list;
+
+        my $a = $a-list.shift // Mu;
+        my $b = $b-list.shift // Mu;
+        gather loop {
+            if $a.defined && $b.defined {
+                if &by($a, $b) == -1 {
+                    my $temp = $a;
+                    take $temp;
+                    $a = $a-list.shift // Mu;
+                } else {
+                    my $temp = $b;
+                    take $temp;
+                    $b = $b-list.shift // Mu;
+                }
             } else {
-                last;
+                if $a.defined {
+                    my $temp = $a;
+                    take $temp;
+                    $a = $a-list.shift // Mu;
+                } elsif $b.defined {
+                    my $temp = $b;
+                    take $temp;
+                    $b = $b-list.shift // Mu;
+                } else {
+                    last;
+                }
             }
         }
     }
