@@ -10,11 +10,11 @@ sub infix:<choose>($n, $k) {
 }
 
 sub are-unique-combinations(@c) {
-    @c.map({ $_.sort.join("") }).set == @c;
+    @c.map({ $_.sort.join("") }).Set == @c;
 }
 
 sub are-bits-of-combination-unique(@c) {
-    @c.set == @c;
+    @c.Set == @c;
 }
 
 sub are-bits-of-each-combination-unique(@c) {
