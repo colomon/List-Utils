@@ -126,11 +126,11 @@ sub binary-search(@x, &test) is export {
 }
 
 sub lower-bound(@x, $key) is export {
-    binary-search(@x, * < $key);
+    binary-search(@x, * before $key);
 }
 
 sub upper-bound(@x, $key) is export {
-    binary-search(@x, * <= $key);
+    binary-search(@x, * !after $key);
 }
 
 sub sorted-merge(@a, @b, &by = &infix:<cmp>) is export {

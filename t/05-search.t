@@ -26,5 +26,26 @@ is(lower-bound(@array, 8.5), @array.elems, "Off the big end returns max_index + 
 
 my @masak = "a" xx 10, "b" xx 100;
 is binary-search(@masak, * eq "a"), 10, 'binary-search finds a/b boundary';
+{
+    my $count = 0;
+    is binary-search(@masak, { $count++; $_ eq "a" }), 10, 'binary-search finds a/b boundary';
+    ok $count < 8, "Doesn't do extra tests";
+}
+
+my @alpha = <a a b c c c d e f f>;
+
+for "b".."f" -> $x {
+    my $i = lower-bound(@alpha, $x);
+    ok @alpha[$i - 1] lt $x le @alpha[$i], "lower bound - 1 lt $x le lower bound";
+}
+
+is lower-bound(@alpha, "f"), @alpha.elems - 2, "Equal to the big end returns max_index - 1"; # - 1 because "f" is doubled
+is lower-bound(@alpha, "g"), @alpha.elems, "Off the big end returns max_index + 1";
+
+for "b".."e" -> $x
+{
+    my $i = upper-bound(@alpha, $x);
+    ok @alpha[$i - 1] le $x lt @alpha[$i], "upper bound - 1 <= $x < upper bound";
+}
 
 done;
