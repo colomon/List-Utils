@@ -105,14 +105,14 @@ sub transpose(@list is copy) is export {
     }
 }
 
-sub lower-bound(@x, $key) is export {
+sub binary-search(@x, &test) is export {
     my $first = 0;
     my $len = @x.elems;
     my $half;
     while ($len > 0 && $first < @x.elems)
     {
         $half = $len div 2;
-        if (@x[$first + $half] < $key)
+        if (&test(@x[$first + $half]))
         {
             $first += $half + 1;
             $len -= $half + 1;
@@ -125,24 +125,12 @@ sub lower-bound(@x, $key) is export {
     return $first;
 }
 
+sub lower-bound(@x, $key) is export {
+    binary-search(@x, * < $key);
+}
+
 sub upper-bound(@x, $key) is export {
-    my $first = 0;
-    my $len = @x.elems;
-    my $half;
-    while ($len > 0 && $first < @x.elems)
-    {
-        $half = $len div 2;
-        if (@x[$first + $half] <= $key)
-        {
-            $first += $half + 1;
-            $len -= $half + 1;
-        }
-        else
-        {
-            $len = $half;
-        }
-    }
-    return $first;
+    binary-search(@x, * <= $key);
 }
 
 sub sorted-merge(@a, @b, &by = &infix:<cmp>) is export {
