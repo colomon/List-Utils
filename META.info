@@ -2,6 +2,7 @@
     "name"        : "List::Utils",
     "version"     : "*",
     "description" : "Simple list utility subs",
+    "provides"    : { "List::Utils" : "lib/List/Utils.pm" },
     "depends"     : [],
     "source-type"   : "git",
     "source-url"    : "git://github.com/colomon/List-Utils.git"
