@@ -1,4 +1,4 @@
-module List::Utils;
+unit module List::Utils;
 
 sub push-one-take-if-enough(@values is rw, $new-value, $n) {
     @values.push($new-value);
