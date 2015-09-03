@@ -134,69 +134,67 @@ sub upper-bound(@x, $key) is export {
 }
 
 sub sorted-merge(@a, @b, &by = &infix:<cmp>) is export {
-    if $*EXECUTABLE_NAME ~~ /:i niecza/ {
-        my $a-list = @a.iterator.list;
-        my $b-list = @b.iterator.list;
+    # if $*EXECUTABLE_NAME ~~ /:i niecza/ {
+    #     my $a-list = @a.iterator.list;
+    #     my $b-list = @b.iterator.list;
+    # 
+    #     my $a = $a-list.shift;
+    #     my $b = $b-list.shift;
+    #     gather loop {
+    #         if $a.defined && $b.defined {
+    #             if &by($a, $b) == -1 {
+    #                 my $temp = $a;
+    #                 take $temp;
+    #                 $a = $a-list.shift;
+    #             } else {
+    #                 my $temp = $b;
+    #                 take $temp;
+    #                 $b = $b-list.shift;
+    #             }
+    #         } else {
+    #             if $a.defined {
+    #                 my $temp = $a;
+    #                 take $temp;
+    #                 $a = $a-list.shift;
+    #             } elsif $b.defined {
+    #                 my $temp = $b;
+    #                 take $temp;
+    #                 $b = $b-list.shift;
+    #             } else {
+    #                 last;
+    #             }
+    #         }
+    #     }
+    # } else {
+        my $a-iterator = @a.iterator;
+        my $b-iterator = @b.iterator;
 
-        my $a = $a-list.shift;
-        my $b = $b-list.shift;
+        my $a := $a-iterator.pull-one;
+        my $b := $b-iterator.pull-one;
         gather loop {
-            if $a.defined && $b.defined {
+            if $a !=:= IterationEnd && $b !=:= IterationEnd {
                 if &by($a, $b) == -1 {
                     my $temp = $a;
                     take $temp;
-                    $a = $a-list.shift;
+                    $a := $a-iterator.pull-one;
                 } else {
                     my $temp = $b;
                     take $temp;
-                    $b = $b-list.shift;
+                    $b := $b-iterator.pull-one;
                 }
+            } elsif $a !=:= IterationEnd {
+                my $temp = $a;
+                take $temp;
+                $a := $a-iterator.pull-one;
+            } elsif $b !=:= IterationEnd {
+                my $temp = $b;
+                take $temp;
+                $b := $b-iterator.pull-one;
             } else {
-                if $a.defined {
-                    my $temp = $a;
-                    take $temp;
-                    $a = $a-list.shift;
-                } elsif $b.defined {
-                    my $temp = $b;
-                    take $temp;
-                    $b = $b-list.shift;
-                } else {
-                    last;
-                }
+                last;
             }
         }
-    } else {
-        my $a-list = @a.iterator.list;
-        my $b-list = @b.iterator.list;
-
-        my $a = $a-list.shift // Mu;
-        my $b = $b-list.shift // Mu;
-        gather loop {
-            if $a.defined && $b.defined {
-                if &by($a, $b) == -1 {
-                    my $temp = $a;
-                    take $temp;
-                    $a = $a-list.shift // Mu;
-                } else {
-                    my $temp = $b;
-                    take $temp;
-                    $b = $b-list.shift // Mu;
-                }
-            } else {
-                if $a.defined {
-                    my $temp = $a;
-                    take $temp;
-                    $a = $a-list.shift // Mu;
-                } elsif $b.defined {
-                    my $temp = $b;
-                    take $temp;
-                    $b = $b-list.shift // Mu;
-                } else {
-                    last;
-                }
-            }
-        }
-    }
+    # }
 }
 
 sub uniq-by(@a, $by) is export {
