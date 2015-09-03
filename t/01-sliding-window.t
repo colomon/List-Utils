@@ -49,4 +49,4 @@ is ~(sliding-window-wrapped(1..*, 1)[^10]), ~(1..10), "one at a time works lazil
 is ~(sliding-window-wrapped(1..*, 2)[^10]), ~(sliding-window-wrapped(1..20, 2)[^10]), "two at a time works lazily";
 
 
-done;
+done-testing;

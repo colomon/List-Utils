@@ -7,8 +7,8 @@ use List::Utils;
 }
 
 {
-    my @a := permute(1..100);
-    is @a[0].elems, 100, "permute(1..100) is lazy, and the first thing it returns is 100 elements long";
+    my $a := permute(1..100);
+    is $a[0].elems, 100, "permute(1..100) is lazy, and the first thing it returns is 100 elements long";
 }
 
-done;
+done-testing;

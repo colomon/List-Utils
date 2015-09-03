@@ -48,4 +48,4 @@ for "b".."e" -> $x
     ok @alpha[$i - 1] le $x lt @alpha[$i], "upper bound - 1 <= $x < upper bound";
 }
 
-done;
+done-testing;

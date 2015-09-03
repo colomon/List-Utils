@@ -14,4 +14,4 @@ is transpose(([1,2,3,4,5],[6],[7,8,9],[10,11])).join('|'),
 is transpose(([<a b c d e>],[<f>],[<g h i>],[<j k>])).join('|'),
     'a f g j|b h k|c i|d|e', "strange matrix with strings (structure)";
 
-done;
+done-testing;
