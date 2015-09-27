@@ -24,7 +24,7 @@ for (1.5, 2, 2.5, 3, 3.5, 4, 5.5, 6) -> $x
 is(lower-bound(@array, 8), @array.elems - 1, "Equal to the big end returns max_index");
 is(lower-bound(@array, 8.5), @array.elems, "Off the big end returns max_index + 1");
 
-my @masak = "a" xx 10, "b" xx 100;
+my @masak = flat "a" xx 10, "b" xx 100;
 is binary-search(@masak, * eq "a"), 10, 'binary-search finds a/b boundary';
 {
     my $count = 0;
