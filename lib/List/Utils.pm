@@ -1,6 +1,6 @@
 unit module List::Utils;
 
-sub push-one-take-if-enough(@values is rw, $new-value, $n) {
+sub push-one-take-if-enough(@values, $new-value, $n) {
     @values.push($new-value);
     @values.shift if +@values > $n;
     if +@values == $n {
