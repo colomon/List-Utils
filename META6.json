@@ -1,6 +1,7 @@
 {
     "perl"        : "6.*",
     "name"        : "List::Utils",
+    "license"     : "Artistic-2.0",
     "version"     : "*",
     "description" : "Simple list utility subs",
     "provides"    : { "List::Utils" : "lib/List/Utils.pm" },
