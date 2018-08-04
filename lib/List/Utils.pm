@@ -61,7 +61,7 @@ multi sub combinations(@items, $count) is export {
     my $size = +@items;
     my $top = $size - $count;
     my @indicies = (^$count).list;
-    gather loop {
+    eager gather loop { # TODO should it be eager?
         take [@items[@indicies]];
         last if !@indicies || @indicies[0] == $top;
         for $count - 1 ... 0 -> $i {
